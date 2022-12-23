@@ -11,9 +11,9 @@ function calc() {
         console.log(`Ответ: ${sum}, ${division}.`);
     }
   }
-  
+
   calc();
-  
+
 function validationNumber() {
   let num1 = +prompt("Введите первое число");
   let num2 = +prompt("Введите второе число");
@@ -26,3 +26,20 @@ function validationNumber() {
 }
 
 validationNumber();
+
+function makeObjectDeepCopy(obj) {
+  let clone = Object.assign({}, obj);
+
+  Object.keys(clone).forEach(
+    (key) =>
+      (clone[key] =
+        typeof obj[key] === "object" ? makeObjectDeepCopy(obj[key]) : obj[key])
+  );
+
+  return Array.isArray(obj) && obj.length
+    ? (clone.length = obj.length) && Array.from(clone)
+    : Array.isArray(obj)
+    ? Array.from(obj)
+    : clone;
+}
+// Big O - O(n^2)
