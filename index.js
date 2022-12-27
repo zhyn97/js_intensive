@@ -1,17 +1,16 @@
 function calc() {
-    let num1 = +prompt("Введите первое число");
-    let num2 = +prompt("Введите второе число");
-    if (isNaN(num1) || isNaN(num2)) {
-      console.log("Некорректный ввод!");
-    } else if (num1 % num2 != 0) {
-      console.log(`${num1} не делится без остатка на ${num2}`);
-    } else {
-        const sum = num1+num2;
-        const division = num1/num2
-        console.log(`Ответ: ${sum}, ${division}.`);
-    }
+  let num1 = +prompt("Введите первое число");
+  let num2 = +prompt("Введите второе число");
+  if (isNaN(num1) || isNaN(num2)) {
+    console.log("Некорректный ввод!");
+  } else if (num1 % num2 != 0) {
+    console.log(`${num1} не делится без остатка на ${num2}`);
+  } else {
+    const sum = num1 + num2;
+    const division = num1 / num2;
+    console.log(`Ответ: ${sum}, ${division}.`);
   }
-
+}
 
 function validationNumber() {
   let num1 = +prompt("Введите первое число");
@@ -24,6 +23,7 @@ function validationNumber() {
   }
 }
 
+//функция интервала в массиве
 
 function selectFromInterval(arr, intervalValue1, intervalValue2) {
   if (
@@ -36,7 +36,9 @@ function selectFromInterval(arr, intervalValue1, intervalValue2) {
 
   for (i = 0; i <= arr.length - 1; i++) {
     if (typeof arr[i] !== "number")
-      throw new Error("Одно или несколько значений в массиве не являются числом");
+      throw new Error(
+        "Одно или несколько значений в массиве не являются числом"
+      );
   }
 
   const intervalArray = [];
@@ -61,6 +63,7 @@ function Error(message) {
   this.message = message;
 }
 
+//функция глубокого копирования
 
 function makeObjectDeepCopy(obj) {
   let clone = Object.assign({}, obj);
@@ -78,8 +81,10 @@ function makeObjectDeepCopy(obj) {
     : clone;
 }
 function Error(mesage) {
-    this.mesage = mesage;
+  this.mesage = mesage;
 }
+
+//итерируемый объект
 
 const myIterable = {
   from: 2,
@@ -87,8 +92,8 @@ const myIterable = {
 };
 
 myIterable[Symbol.iterator] = function () {
-  if(typeof this.from !== 'number' || this.from > this.to){
-    throw new Error('Невалидные данные');
+  if (typeof this.from !== "number" || this.from > this.to) {
+    throw new Error("Невалидные данные");
   }
   return {
     current: this.from,
@@ -103,3 +108,47 @@ myIterable[Symbol.iterator] = function () {
     },
   };
 };
+
+//Аналог метода фильтр
+
+let arr = [3, 1, -14, 40, 58, 39, 47, 11, 114, -9, 8, 76, 93];
+
+function isPrime(num) {
+  if (num <= 1) return false;
+  else if (num === 2) return true;
+  else {
+    for (let i = 2; i < num; i++) if (num % i === 0) return false;
+    return true;
+  }
+}
+
+Array.prototype.myFilter = function (callback, thisArg) {
+  if (this == null) {
+    throw new Error("Ошибка. Передан null или undefind");
+  } else if (typeof callback !== 'function'){
+    throw new Error("Переданная callback функция не является функцией");
+  }
+
+  let obj = new Object(this);
+
+  let context = this;
+
+  if (arguments.length > 1) {
+    context = thisArg;
+  }
+
+  let filteredArray = [];
+
+  for (let i = 0; i < obj.length; i++) {
+    if (i in obj) {
+        if(callback.call(context, this[i], i, obj)){
+            filteredArray.push(this[i]);
+        }
+    }
+  }
+  
+  return filteredArray;
+};
+
+const newArr = arr.myFilter(isPrime);
+console.log(newArr);
