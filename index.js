@@ -103,7 +103,3 @@ myIterable[Symbol.iterator] = function () {
     },
   };
 };
-
-for (let item of myIterable) {
-  console.log(item);
-}
