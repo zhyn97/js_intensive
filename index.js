@@ -103,6 +103,8 @@ myIterable[Symbol.iterator] = function () {
   };
 };
 
+//реализация Stack
+
 function Stack() {
   this.size = 0;
   this.storage = {};
