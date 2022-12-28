@@ -1,17 +1,16 @@
 function calc() {
-    let num1 = +prompt("Введите первое число");
-    let num2 = +prompt("Введите второе число");
-    if (isNaN(num1) || isNaN(num2)) {
-      console.log("Некорректный ввод!");
-    } else if (num1 % num2 != 0) {
-      console.log(`${num1} не делится без остатка на ${num2}`);
-    } else {
-        const sum = num1+num2;
-        const division = num1/num2
-        console.log(`Ответ: ${sum}, ${division}.`);
-    }
+  let num1 = +prompt("Введите первое число");
+  let num2 = +prompt("Введите второе число");
+  if (isNaN(num1) || isNaN(num2)) {
+    console.log("Некорректный ввод!");
+  } else if (num1 % num2 != 0) {
+    console.log(`${num1} не делится без остатка на ${num2}`);
+  } else {
+    const sum = num1 + num2;
+    const division = num1 / num2;
+    console.log(`Ответ: ${sum}, ${division}.`);
   }
-
+}
 
 function validationNumber() {
   let num1 = +prompt("Введите первое число");
@@ -24,7 +23,6 @@ function validationNumber() {
   }
 }
 
-
 function selectFromInterval(arr, intervalValue1, intervalValue2) {
   if (
     typeof intervalValue1 !== "number" ||
@@ -36,7 +34,9 @@ function selectFromInterval(arr, intervalValue1, intervalValue2) {
 
   for (i = 0; i <= arr.length - 1; i++) {
     if (typeof arr[i] !== "number")
-      throw new Error("Одно или несколько значений в массиве не являются числом");
+      throw new Error(
+        "Одно или несколько значений в массиве не являются числом"
+      );
   }
 
   const intervalArray = [];
@@ -61,7 +61,6 @@ function Error(message) {
   this.message = message;
 }
 
-
 function makeObjectDeepCopy(obj) {
   let clone = Object.assign({}, obj);
 
@@ -78,7 +77,7 @@ function makeObjectDeepCopy(obj) {
     : clone;
 }
 function Error(mesage) {
-    this.mesage = mesage;
+  this.mesage = mesage;
 }
 
 const myIterable = {
@@ -87,8 +86,8 @@ const myIterable = {
 };
 
 myIterable[Symbol.iterator] = function () {
-  if(typeof this.from !== 'number' || this.from > this.to){
-    throw new Error('Невалидные данные');
+  if (typeof this.from !== "number" || this.from > this.to) {
+    throw new Error("Невалидные данные");
   }
   return {
     current: this.from,
@@ -103,3 +102,71 @@ myIterable[Symbol.iterator] = function () {
     },
   };
 };
+
+function Stack() {
+  this.size = 0;
+  this.storage = {};
+}
+
+Stack.prototype.push = function (data) {
+  let size = ++this.size;
+  this.storage[size] = data;
+};
+
+Stack.prototype.pop = function () {
+  let size = this.size,
+    deletedData;
+
+  if (size) {
+    deletedData = this.storage[size];
+
+    delete this.storage[size];
+
+    this.size--;
+  } else {
+    throw new Error("Stack is empty");
+  }
+
+  return deletedData;
+};
+
+Stack.prototype.peekBack = function () {
+  let size = this.size,
+    lastData;
+
+  if (size) {
+    lastData = this.storage[size];
+  } else {
+    throw new Error("Stack is empty");
+  }
+
+  return lastData;
+};
+
+Stack.prototype.isEmpty = function(){
+    if(this.size >= 1){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+Stack.prototype.length = function(){
+    return this.size;
+}
+
+const test = new Stack();
+test.push("a");
+test.push(4);
+test.push(5);
+test.pop();
+console.log(test);
+
+const test2 = test.peekBack();
+console.log(test2);
+
+const emptyTest = test.isEmpty();
+console.log(emptyTest);
+
+const sizeTest = test.length();
+console.log(sizeTest);
