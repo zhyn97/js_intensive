@@ -155,7 +155,7 @@ console.log(newArr);
 
 //двусвязанный список
 
-class Node {
+class LinkedListNode {
     constructor(value) {
         this.value = value;
         this.next = null;
@@ -175,28 +175,28 @@ class DoublyLinkedList {
     }
 
     append(value) {
-        let newNode = new Node(value);
+        let newNode = new LinkedListNode(value);
 
         this.tail.next = newNode;
         newNode.previous = this.tail;
         this.tail = newNode;
 
         this.length++;
-        this.printList();
+        this.toArray();
     }
 
     prepend(value) {
-        let newNode = new Node(value);
+        let newNode = new LinkedListNode(value);
 
         newNode.next = this.head;
         this.head.previous = newNode;
         this.head = newNode;
 
         this.length++;
-        this.printList();
+        this.toArray();
     }
 
-    insert (index, value) {
+    insertAfter (index, value) {
         if (!Number.isInteger(index) || index < 0 || index > this.length + 1) {
             console.log(`Invalid index. Current length is ${this.length}.`);
             return this;
@@ -212,7 +212,7 @@ class DoublyLinkedList {
             return this;
         }
 
-        let newNode = new Node(value);
+        let newNode = new LinkedListNode(value);
         let previousNode = this.head;
 
         for (let k = 0; k < index - 1; k++) {
@@ -227,10 +227,10 @@ class DoublyLinkedList {
         nextNode.previous = newNode;
 
         this.length++;
-        this.printList();
+        this.toArray();
     }
 
-    remove (index) {
+    delete (index) {
         if (!Number.isInteger(index) || index < 0 || index > this.length) {
             console.log(`Invalid index. Current length is ${this.length}.`);
             return this;
@@ -241,7 +241,7 @@ class DoublyLinkedList {
             this.head.previous = null;
 
             this.length--;
-            this.printList();
+            this.toArray();
             return this;
         }
 
@@ -250,7 +250,7 @@ class DoublyLinkedList {
             this.tail.next = null;
 
             this.length--;
-            this.printList();
+            this.toArray();
             return this;
         }
 
@@ -266,7 +266,19 @@ class DoublyLinkedList {
         nextNode.previous = previousNode;
 
         this.length--;
-        this.printList();
+        this.toArray();
         return this;
+    }
+
+    toArray() {
+        const nodes = [];
+        let currentNode = this.head;
+
+        while(currentNode) {
+            nodes.push(currentNode);
+            currentNode = currentNode.next;
+        }
+        console.log(nodes);
+        return nodes;
     }
 }
