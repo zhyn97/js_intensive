@@ -152,3 +152,64 @@ Array.prototype.myFilter = function (callback, thisArg) {
 
 const newArr = arr.myFilter(isPrime);
 console.log(newArr);
+
+
+class Calculator {
+    constructor(numX, numY){
+        this.numX = numX;
+        this.numY = numY;
+
+        if(
+            this.numX < 0 ||
+            this.numY < 0 ||
+            typeof numX == "undefined" ||
+            typeof numY == "undefined"
+            ){
+            throw new Error('Error: Invalid values');
+        }
+    }
+
+    setX(newNum){
+        if(
+            newNum < 0 ||
+            typeof newNum == "undefined"
+        ){
+            throw new Error('Error: Invalid values');
+        } else {
+            this.numX = newNum;
+        }
+        
+    }
+
+    setY(newNum){
+        if(
+            newNum < 0 ||
+            typeof newNum == "undefined"
+        ){
+            throw new Error('Error: Invalid values');
+        } else {
+            this.numY = newNum;
+        }
+        
+    }
+
+    logSum(){
+        console.log(this.numX + this.numY);
+    }
+
+    logMul(){
+        console.log(this.numX * this.numY);
+    }
+
+    logSub(){
+        console.log(this.numX - this.numY);
+    }
+
+    logDiv(){
+        if(this.numY == 0){
+            throw new Error(`Error: You can't divide by 0`);
+        } else {
+            console.log(this.numX / this.numY);
+        }
+    }
+}
