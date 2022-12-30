@@ -152,3 +152,21 @@ Array.prototype.myFilter = function (callback, thisArg) {
 
 const newArr = arr.myFilter(isPrime);
 console.log(newArr);
+
+//Функция задержки
+
+function createDebounceFunction(callbackFun, delay) {
+    let timer
+    return (...arguments) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            callbackFun(arguments)
+        }, delay)
+    }
+}
+
+const log100 = () => console.log(100);
+const debounceLog100 = createDebounceFunction(log100, 3000);
+debounceLog100();
+setTimeout(debounceLog100, 200);
+setTimeout(debounceLog100, 400);
