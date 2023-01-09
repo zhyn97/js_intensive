@@ -510,9 +510,7 @@ class DoublyLinkedList {
             nodes.push(currentNode);
             currentNode = currentNode.next;
         }
+        console.log(nodes);
         return nodes;
     }
 }
-        console.log(nodes);
-        return nodes;
-    
