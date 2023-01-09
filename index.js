@@ -125,7 +125,7 @@ function isPrime(num) {
 Array.prototype.myFilter = function (callback, thisArg) {
   if (this == null) {
     throw new Error("Ошибка. Передан null или undefind");
-  } else if (typeof callback !== 'function'){
+  } else if (typeof callback !== "function") {
     throw new Error("Переданная callback функция не является функцией");
   }
 
@@ -141,12 +141,12 @@ Array.prototype.myFilter = function (callback, thisArg) {
 
   for (let i = 0; i < obj.length; i++) {
     if (i in obj) {
-        if(callback.call(context, this[i], i, obj)){
-            filteredArray.push(this[i]);
-        }
+      if (callback.call(context, this[i], i, obj)) {
+        filteredArray.push(this[i]);
+      }
     }
   }
-  
+
   return filteredArray;
 };
 
@@ -195,17 +195,17 @@ Stack.prototype.peekBack = function () {
   return lastData;
 };
 
-Stack.prototype.isEmpty = function(){
-    if(this.size >= 1){
-        return false;
-    } else {
-        return true;
-    }
-}
+Stack.prototype.isEmpty = function () {
+  if (this.size >= 1) {
+    return false;
+  } else {
+    return true;
+  }
+};
 
-Stack.prototype.length = function(){
-    return this.size;
-}
+Stack.prototype.length = function () {
+  return this.size;
+};
 
 const test = new Stack();
 test.push("a");
@@ -225,164 +225,281 @@ console.log(sizeTest);
 
 //Очередь
 
-function Queue(){
-    this.oldestIndex = 1;
-    this.newestIndex = 1;
-    this.storage = {};
+function Queue() {
+  this.oldestIndex = 1;
+  this.newestIndex = 1;
+  this.storage = {};
 }
 
-Queue.prototype.size = function() {
-    return this.newestIndex - this.oldestIndex;
-}
+Queue.prototype.size = function () {
+  return this.newestIndex - this.oldestIndex;
+};
 
-Queue.prototype.enqueue = function(data) {
-    this.storage[this.newestIndex] = data;
-    this.newestIndex++
-}
+Queue.prototype.enqueue = function (data) {
+  this.storage[this.newestIndex] = data;
+  this.newestIndex++;
+};
 
-Queue.prototype.dequeue = function() {
-    if(this.oldestIndex !== this.newestIndex){
-        let deletedData = this.storage[this.oldestIndex];
-        delete this.storage[this.oldestIndex];
-        this.oldestIndex++;
+Queue.prototype.dequeue = function () {
+  if (this.oldestIndex !== this.newestIndex) {
+    let deletedData = this.storage[this.oldestIndex];
+    delete this.storage[this.oldestIndex];
+    this.oldestIndex++;
 
-        for (let key in this.storage) {
-            key - 1;
-          }
-
-        return deletedData;
+    for (let key in this.storage) {
+      key - 1;
     }
-}
 
-Queue.prototype.front = function() {
-    if(this.oldestIndex !== this.newestIndex){
-        return this.storage[this.oldestIndex];
-    } else {
-        console.log('method front: Queue is empty');
-    }
-}
+    return deletedData;
+  }
+};
 
-Queue.prototype.isEmpty = function() {
-    if(this.oldestIndex !== this.newestIndex){
-        return false
-    } else {
-        return true
-    }
-}
+Queue.prototype.front = function () {
+  if (this.oldestIndex !== this.newestIndex) {
+    return this.storage[this.oldestIndex];
+  } else {
+    console.log("method front: Queue is empty");
+  }
+};
+
+Queue.prototype.isEmpty = function () {
+  if (this.oldestIndex !== this.newestIndex) {
+    return false;
+  } else {
+    return true;
+  }
+};
 
 //реализация связанного списка
 
 class LinkedListNode {
-    constructor(value, next = null){
-        this.value = value;
-        this.next = next;
-    }
+  constructor(value, next = null) {
+    this.value = value;
+    this.next = next;
+  }
 
-    toString() {
-        return `${this.value}`;
-    }
+  toString() {
+    return `${this.value}`;
+  }
 }
 
 class LinkedList {
-    constructor() {
-        this.head = null;
-        this.tail = null;
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+
+  append(value) {
+    const newNode = new LinkedListNode(value);
+
+    if (!this.head || !this.tail) {
+      this.head = newNode;
+      this.tail = newNode;
+
+      return this;
+    }
+
+    this.tail.next = newNode;
+    this.tail = newNode;
+    return this;
+  }
+
+  prepend(value) {
+    const newNode = new LinkedListNode(value, this.head);
+
+    this.head = newNode;
+
+    if (!this.tail) {
+      this.tail = newNode;
+    }
+
+    return this;
+  }
+
+  find(value) {
+    if (!this.head) {
+      return null;
+    }
+
+    let currentNode = this.head;
+
+    while (currentNode) {
+      if (currentNode.value === value) {
+        return currentNode;
+      }
+
+      currentNode = currentNode.next;
+    }
+
+    return null;
+  }
+
+  insertAfter(value, prevNode) {
+    if (prevNode === null) {
+      return this;
+    }
+
+    const newNode = new LinkedListNode(value);
+
+    newNode.next = prevNode.next;
+
+    prevNode.next = newNode;
+
+    if (newNode.next === null) {
+      this.tail = newNode;
+    }
+
+    return this;
+  }
+
+  delete(value) {
+    if (!this.head) {
+      return null;
+    }
+
+    let deletedNode = null;
+
+    while (this.head && this.head.value === value) {
+      deletedNode = this.head;
+      this.head = this.head.next;
+    }
+
+    let currentNode = this.head;
+
+    if (currentNode !== null) {
+      while (currentNode.next) {
+        if (currentNode.next.value === value) {
+          deletedNode = currentNode.next;
+          currentNode.next = currentNode.next.next;
+        } else {
+          currentNode = currentNode.next;
+        }
+      }
+    }
+
+    if (this.tail?.value === value) {
+      this.tail === currentNode;
+    }
+
+    return deletedNode;
+  }
+}
+
+//двусвязанный список
+
+class DoublyLinkedListNode {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+        this.previous = null;
+    }
+}
+
+class DoublyLinkedList {
+    constructor(value) {
+        this.head = {
+            value: value,
+            next: null,
+            previous: null
+        };
+        this.length = 1;
+        this.tail = this.head;
     }
 
     append(value) {
-        const newNode = new LinkedListNode(value);
-
-        if(!this.head || !this.tail){
-            this.head = newNode;
-            this.tail = newNode;
-
-            return this;
-        }
+        let newNode = new DoublyLinkedListNode(value);
 
         this.tail.next = newNode;
+        newNode.previous = this.tail;
         this.tail = newNode;
-        return this;
 
+        this.length++;
+        this.toArray();
     }
 
     prepend(value) {
-        const newNode = new LinkedListNode(value, this.head);
+        let newNode = new DoublyLinkedListNode(value);
 
+        newNode.next = this.head;
+        this.head.previous = newNode;
         this.head = newNode;
 
-        if(!this.tail){
-            this.tail = newNode;
-        }
-
-        return this;
+        this.length++;
+        this.toArray();
     }
 
-    find(value) {
-        if(!this.head){
-            return null;
-        }
-
-        let currentNode = this.head;
-
-        while(currentNode){
-            if(currentNode.value === value){
-                return currentNode;
-            }
-
-            currentNode = currentNode.next;
-        }
-
-        return null;
-    }
-
-    insertAfter(value, prevNode){
-        if(prevNode === null) {
+    insertAfter (index, value) {
+        if (!Number.isInteger(index) || index < 0 || index > this.length + 1) {
+            console.log(`Invalid index. Current length is ${this.length}.`);
             return this;
         }
 
-        const newNode = new LinkedListNode(value);
-
-        newNode.next = prevNode.next;
-
-        prevNode.next = newNode;
-
-        if(newNode.next === null) {
-            this.tail = newNode;
+        if (index === 0) {
+            this.prepend(value);
+            return this;
         }
 
-        return this;
+        if (index === this.length) {
+            this.append(value);
+            return this;
+        }
+
+        let newNode = new DoublyLinkedListNode(value);
+        let previousNode = this.head;
+
+        for (let k = 0; k < index - 1; k++) {
+            previousNode = previousNode.next;
+        }
+
+        let nextNode = previousNode.next;
+        
+        newNode.next = nextNode;
+        previousNode.next = newNode;
+        newNode.previous = previousNode;
+        nextNode.previous = newNode;
+
+        this.length++;
+        this.toArray();
     }
 
-    delete(value) {
-        if(!this.head){
-            return null;
+    delete (index) {
+        if (!Number.isInteger(index) || index < 0 || index > this.length) {
+            console.log(`Invalid index. Current length is ${this.length}.`);
+            return this;
         }
 
-        let deletedNode = null;
-
-        while(this.head && this.head.value === value) {
-            deletedNode = this.head;
+        if (index === 0) {
             this.head = this.head.next;
+            this.head.previous = null;
+
+            this.length--;
+            this.toArray();
+            return this;
         }
 
-        let currentNode = this.head;
+        if (index === this.length - 1) {
+            this.tail = this.tail.previous;
+            this.tail.next = null;
 
-        if(currentNode !== null) {
-            while(currentNode.next) {
-                if(currentNode.next.value === value) {
-                    deletedNode = currentNode.next;
-                    currentNode.next = currentNode.next.next;
-                } else {
-                    currentNode = currentNode.next;
-                }
-            }
+            this.length--;
+            this.toArray();
+            return this;
         }
 
-        if(this.tail?.value === value){
-            this.tail === currentNode;
-        }
+        let previousNode = this.head;
 
-        return deletedNode;
+        for (let k = 0; k < index - 1; k++) {
+            previousNode = previousNode.next;
+        }
+        let deleteNode = previousNode.next;
+        let nextNode = deleteNode.next;
+
+        previousNode.next = nextNode;
+        nextNode.previous = previousNode;
+
+        this.length--;
+        this.toArray();
+        return this;
     }
 
     toArray() {
@@ -396,3 +513,6 @@ class LinkedList {
         return nodes;
     }
 }
+        console.log(nodes);
+        return nodes;
+    
