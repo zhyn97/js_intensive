@@ -152,3 +152,73 @@ Array.prototype.myFilter = function (callback, thisArg) {
 
 const newArr = arr.myFilter(isPrime);
 console.log(newArr);
+
+//реализация Stack
+
+function Stack() {
+  this.size = 0;
+  this.storage = {};
+}
+
+Stack.prototype.push = function (data) {
+  let size = ++this.size;
+  this.storage[size] = data;
+};
+
+Stack.prototype.pop = function () {
+  let size = this.size,
+    deletedData;
+
+  if (size) {
+    deletedData = this.storage[size];
+
+    delete this.storage[size];
+
+    this.size--;
+  } else {
+    throw new Error("Stack is empty");
+  }
+
+  return deletedData;
+};
+
+Stack.prototype.peekBack = function () {
+  let size = this.size,
+    lastData;
+
+  if (size) {
+    lastData = this.storage[size];
+  } else {
+    throw new Error("Stack is empty");
+  }
+
+  return lastData;
+};
+
+Stack.prototype.isEmpty = function(){
+    if(this.size >= 1){
+        return false;
+    } else {
+        return true;
+    }
+}
+
+Stack.prototype.length = function(){
+    return this.size;
+}
+
+const test = new Stack();
+test.push("a");
+test.push(4);
+test.push(5);
+test.pop();
+console.log(test);
+
+const test2 = test.peekBack();
+console.log(test2);
+
+const emptyTest = test.isEmpty();
+console.log(emptyTest);
+
+const sizeTest = test.length();
+console.log(sizeTest);
