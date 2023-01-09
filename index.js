@@ -388,143 +388,143 @@ class LinkedList {
 //двусвязанный список
 
 class DoublyLinkedListNode {
-    constructor(value) {
-        this.value = value;
-        this.next = null;
-        this.previous = null;
-    }
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+    this.previous = null;
+  }
 }
 
 class DoublyLinkedList {
-    constructor(value) {
-        this.head = {
-            value: value,
-            next: null,
-            previous: null
-        };
-        this.length = 1;
-        this.tail = this.head;
+  constructor(value) {
+    this.head = {
+      value: value,
+      next: null,
+      previous: null,
+    };
+    this.length = 1;
+    this.tail = this.head;
+  }
+
+  append(value) {
+    let newNode = new DoublyLinkedListNode(value);
+
+    this.tail.next = newNode;
+    newNode.previous = this.tail;
+    this.tail = newNode;
+
+    this.length++;
+    this.toArray();
+  }
+
+  prepend(value) {
+    let newNode = new DoublyLinkedListNode(value);
+
+    newNode.next = this.head;
+    this.head.previous = newNode;
+    this.head = newNode;
+
+    this.length++;
+    this.toArray();
+  }
+
+  insertAfter(index, value) {
+    if (!Number.isInteger(index) || index < 0 || index > this.length + 1) {
+      console.log(`Invalid index. Current length is ${this.length}.`);
+      return this;
     }
 
-    append(value) {
-        let newNode = new DoublyLinkedListNode(value);
-
-        this.tail.next = newNode;
-        newNode.previous = this.tail;
-        this.tail = newNode;
-
-        this.length++;
-        this.toArray();
+    if (index === 0) {
+      this.prepend(value);
+      return this;
     }
 
-    prepend(value) {
-        let newNode = new DoublyLinkedListNode(value);
-
-        newNode.next = this.head;
-        this.head.previous = newNode;
-        this.head = newNode;
-
-        this.length++;
-        this.toArray();
+    if (index === this.length) {
+      this.append(value);
+      return this;
     }
 
-    insertAfter (index, value) {
-        if (!Number.isInteger(index) || index < 0 || index > this.length + 1) {
-            console.log(`Invalid index. Current length is ${this.length}.`);
-            return this;
-        }
+    let newNode = new DoublyLinkedListNode(value);
+    let previousNode = this.head;
 
-        if (index === 0) {
-            this.prepend(value);
-            return this;
-        }
-
-        if (index === this.length) {
-            this.append(value);
-            return this;
-        }
-
-        let newNode = new DoublyLinkedListNode(value);
-        let previousNode = this.head;
-
-        for (let k = 0; k < index - 1; k++) {
-            previousNode = previousNode.next;
-        }
-
-        let nextNode = previousNode.next;
-        
-        newNode.next = nextNode;
-        previousNode.next = newNode;
-        newNode.previous = previousNode;
-        nextNode.previous = newNode;
-
-        this.length++;
-        this.toArray();
+    for (let k = 0; k < index - 1; k++) {
+      previousNode = previousNode.next;
     }
 
-    delete (index) {
-        if (!Number.isInteger(index) || index < 0 || index > this.length) {
-            console.log(`Invalid index. Current length is ${this.length}.`);
-            return this;
-        }
+    let nextNode = previousNode.next;
 
-        if (index === 0) {
-            this.head = this.head.next;
-            this.head.previous = null;
+    newNode.next = nextNode;
+    previousNode.next = newNode;
+    newNode.previous = previousNode;
+    nextNode.previous = newNode;
 
-            this.length--;
-            this.toArray();
-            return this;
-        }
+    this.length++;
+    this.toArray();
+  }
 
-        if (index === this.length - 1) {
-            this.tail = this.tail.previous;
-            this.tail.next = null;
-
-            this.length--;
-            this.toArray();
-            return this;
-        }
-
-        let previousNode = this.head;
-
-        for (let k = 0; k < index - 1; k++) {
-            previousNode = previousNode.next;
-        }
-        let deleteNode = previousNode.next;
-        let nextNode = deleteNode.next;
-
-        previousNode.next = nextNode;
-        nextNode.previous = previousNode;
-
-        this.length--;
-        this.toArray();
-        return this;
+  delete(index) {
+    if (!Number.isInteger(index) || index < 0 || index > this.length) {
+      console.log(`Invalid index. Current length is ${this.length}.`);
+      return this;
     }
 
-    toArray() {
-        const nodes = [];
-        let currentNode = this.head;
+    if (index === 0) {
+      this.head = this.head.next;
+      this.head.previous = null;
 
-        while(currentNode) {
-            nodes.push(currentNode);
-            currentNode = currentNode.next;
-        }
-        console.log(nodes);
-        return nodes;
+      this.length--;
+      this.toArray();
+      return this;
     }
+
+    if (index === this.length - 1) {
+      this.tail = this.tail.previous;
+      this.tail.next = null;
+
+      this.length--;
+      this.toArray();
+      return this;
+    }
+
+    let previousNode = this.head;
+
+    for (let k = 0; k < index - 1; k++) {
+      previousNode = previousNode.next;
+    }
+    let deleteNode = previousNode.next;
+    let nextNode = deleteNode.next;
+
+    previousNode.next = nextNode;
+    nextNode.previous = previousNode;
+
+    this.length--;
+    this.toArray();
+    return this;
+  }
+
+  toArray() {
+    const nodes = [];
+    let currentNode = this.head;
+
+    while (currentNode) {
+      nodes.push(currentNode);
+      currentNode = currentNode.next;
+    }
+    console.log(nodes);
+    return nodes;
+  }
 }
 
 //Функция задержки
 
 function createDebounceFunction(callbackFun, delay) {
-    let timer
-    return (...arguments) => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            callbackFun(arguments)
-        }, delay)
-    }
+  let timer;
+  return (...arguments) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      callbackFun(arguments);
+    }, delay);
+  };
 }
 
 const log100 = () => console.log(100);
@@ -532,3 +532,57 @@ const debounceLog100 = createDebounceFunction(log100, 3000);
 debounceLog100();
 setTimeout(debounceLog100, 200);
 setTimeout(debounceLog100, 400);
+
+//калькулятор
+
+class Calculator {
+  constructor(numX, numY) {
+    this.numX = numX;
+    this.numY = numY;
+
+    if (
+      this.numX < 0 ||
+      this.numY < 0 ||
+      typeof numX == "undefined" ||
+      typeof numY == "undefined"
+    ) {
+      throw new Error("Error: Invalid values");
+    }
+  }
+
+  setX(newNum) {
+    if (newNum < 0 || typeof newNum == "undefined") {
+      throw new Error("Error: Invalid values");
+    } else {
+      this.numX = newNum;
+    }
+  }
+
+  setY(newNum) {
+    if (newNum < 0 || typeof newNum == "undefined") {
+      throw new Error("Error: Invalid values");
+    } else {
+      this.numY = newNum;
+    }
+  }
+
+  logSum() {
+    console.log(this.numX + this.numY);
+  }
+
+  logMul() {
+    console.log(this.numX * this.numY);
+  }
+
+  logSub() {
+    console.log(this.numX - this.numY);
+  }
+
+  logDiv() {
+    if (this.numY == 0) {
+      throw new Error(`Error: You can't divide by 0`);
+    } else {
+      console.log(this.numX / this.numY);
+    }
+  }
+}
