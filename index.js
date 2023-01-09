@@ -222,3 +222,50 @@ console.log(emptyTest);
 
 const sizeTest = test.length();
 console.log(sizeTest);
+
+//Очередь
+
+function Queue(){
+    this.oldestIndex = 1;
+    this.newestIndex = 1;
+    this.storage = {};
+}
+
+Queue.prototype.size = function() {
+    return this.newestIndex - this.oldestIndex;
+}
+
+Queue.prototype.enqueue = function(data) {
+    this.storage[this.newestIndex] = data;
+    this.newestIndex++
+}
+
+Queue.prototype.dequeue = function() {
+    if(this.oldestIndex !== this.newestIndex){
+        let deletedData = this.storage[this.oldestIndex];
+        delete this.storage[this.oldestIndex];
+        this.oldestIndex++;
+
+        for (let key in this.storage) {
+            key - 1;
+          }
+
+        return deletedData;
+    }
+}
+
+Queue.prototype.front = function() {
+    if(this.oldestIndex !== this.newestIndex){
+        return this.storage[this.oldestIndex];
+    } else {
+        console.log('method front: Queue is empty');
+    }
+}
+
+Queue.prototype.isEmpty = function() {
+    if(this.oldestIndex !== this.newestIndex){
+        return false
+    } else {
+        return true
+    }
+}
